@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import userRoutes from './routes/user.routes.js'
+import userRoutes from './routes/user.route.js'
 
 // .evn imported
 import dotenv from 'dotenv';
