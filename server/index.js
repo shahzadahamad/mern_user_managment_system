@@ -1,8 +1,12 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import userRoutes from './routes/user.routes.js'
+
+// .evn imported
 import dotenv from 'dotenv';
 dotenv.config();
 
+// mongodb connection
 mongoose.connect(process.env.mongoUrl).then(() => {
   console.log('mongodb connected!');
 }).catch((error)=> {
@@ -10,6 +14,9 @@ mongoose.connect(process.env.mongoUrl).then(() => {
 })
 
 const app = express();
+
+app.use('/',userRoutes)
+
 
 app.listen(3000,() => {
   console.log('server listenling on port http://localhost:3000')
