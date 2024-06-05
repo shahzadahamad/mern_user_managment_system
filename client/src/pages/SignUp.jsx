@@ -1,9 +1,10 @@
 import { useState } from "react";
 import axios from "../axios.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function SignUp() {
 
+  const navigate = useNavigate();
   const [formData,setFormData] = useState({})
   const [error,setError] = useState(null);
   const [loading,setLoading] = useState(false);
@@ -17,9 +18,9 @@ function SignUp() {
     try {
       setLoading(true);
       setError(false);
-      const res = await axios.post('/auth/signup',formData);
-      console.log(res)
+      await axios.post('/auth/signup',formData);
       setLoading(false)
+      navigate('/sign-in')
     } catch (error) {
       setLoading(false)
       setError(true)
