@@ -20,6 +20,15 @@ app.use(express.json())
 app.use('/user',userRoutes)
 app.use('/auth',authRoutes)
 
+app.use((err,req,res,next) => {
+  const  statusCode = err.statusCode || 500;
+  const message = err.message || 'Internal Server Error';
+  return res.status(statusCode).json({
+    success:false,
+    message,
+    statusCode,
+  })
+})
 
 app.listen(3000,() => {
   console.log('server listenling on port http://localhost:3000')
