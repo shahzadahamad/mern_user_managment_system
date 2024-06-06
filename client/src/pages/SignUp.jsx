@@ -1,32 +1,36 @@
 import { useState } from "react";
 import axios from "../axios.js";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signUpFailure,
+  signUpStart,
+  signUpSuccess,
+  signInAndUpClear,
+} from "../redex/user/userSlice.js";
 
 function SignUp() {
-
   const navigate = useNavigate();
-  const [formData,setFormData] = useState({})
-  const [error,setError] = useState(null);
-  const [loading,setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const [formData, setFormData] = useState({});
+  const { loading, error } = useSelector((state) => state.user);
 
   const handleChange = (e) => {
-    setFormData({...formData,[e.target.id]:e.target.value})
-  }
+    dispatch(signInAndUpClear())
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true);
-      setError(false);
-      await axios.post('/auth/signup',formData);
-      setLoading(false)
-      navigate('/sign-in')
+      dispatch(signUpStart());
+      await axios.post("/auth/signup", formData);
+      dispatch(signUpSuccess());
+      navigate("/sign-in");
     } catch (error) {
-      setLoading(false)
-      setError(true)
-      console.log(error.message)
+      dispatch(signUpFailure(error.response.data));
     }
-  }
+  };
 
   return (
     <div className="p-3 max-w-lg mx-auto">
@@ -36,31 +40,43 @@ function SignUp() {
           type="text"
           placeholder="Username"
           id="username"
-          className="bg-slate-100 p-3 rounded-lg" onChange={handleChange} 
+          className="bg-slate-100 p-3 rounded-lg"
+          onChange={handleChange}
         />
         <input
           type="email"
           placeholder="Email"
           id="email"
-          className="bg-slate-100 p-3 rounded-lg" onChange={handleChange}
+          className="bg-slate-100 p-3 rounded-lg"
+          onChange={handleChange}
         />
         <input
           type="password"
           placeholder="Password"
           id="password"
-          className="bg-slate-100 p-3 rounded-lg" onChange={handleChange}
+          className="bg-slate-100 p-3 rounded-lg"
+          onChange={handleChange}
         />
-        <button disabled={loading} className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
-           {loading ? 'Loading...' : 'Sign Up'}
+        <button
+          disabled={loading}
+          className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+        >
+          {loading ? "Loading..." : "Sign Up"}
         </button>
       </form>
       <div className="flex gap-2 mt-5">
         <p>Have an account?</p>
-        <Link to='/sign-in'>
+        <Link to="/sign-in">
           <span className="text-blue-500">Sign in</span>
         </Link>
       </div>
-      <p className="text-red-700 mt-5">{error && 'something went wrong!'}</p>
+      {error ? (
+        <p className="text-red-700 mt-5">
+          {error.message || "something went wrong!"}
+        </p>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

@@ -6,7 +6,7 @@ import {
   signInFailure,
   signInStart,
   signInSuccess,
-  signInClear,
+  signInAndUpClear,
 } from "../redex/user/userSlice.js";
 
 function SignIn() {
@@ -16,8 +16,8 @@ function SignIn() {
   const { loading, error } = useSelector((state) => state.user);
 
   const handleChange = (e) => {
+    dispatch(signInAndUpClear());
     setFormData({ ...formData, [e.target.id]: e.target.value });
-    dispatch(signInClear());
   };
 
   const handleSubmit = async (e) => {
