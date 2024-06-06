@@ -16,7 +16,7 @@ function SignIn() {
   const { loading, error } = useSelector((state) => state.user);
 
   const handleChange = (e) => {
-    dispatch(signInAndUpClear());
+    // dispatch(signInAndUpClear());
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
