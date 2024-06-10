@@ -3,10 +3,13 @@ import { app } from "../firebase";
 import axios from "../axios.js";
 import { useDispatch } from "react-redux";
 import { signInSuccess } from "../redex/user/userSlice";
+import { useNavigate } from "react-router-dom";
+
 
 
 function OAuth() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleGoogleClick = async () => {
     try {
       const provider = new GoogleAuthProvider();
@@ -19,7 +22,8 @@ function OAuth() {
       }
       const res = await axios.post('/auth/google',data);
       console.log(res.data)
-      dispatch(signInSuccess(res.data))
+      dispatch(signInSuccess(res.data));
+      navigate('/')
     } catch (error) {
       console.log(error.message);
     }
