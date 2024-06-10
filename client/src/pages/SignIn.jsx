@@ -8,6 +8,7 @@ import {
   signInSuccess,
   signInAndUpClear,
 } from "../redex/user/userSlice.js";
+import OAuth from "../components/OAuth.jsx";
 
 function SignIn() {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ function SignIn() {
   const { loading, error } = useSelector((state) => state.user);
 
   const handleChange = (e) => {
-    // dispatch(signInAndUpClear());
+    dispatch(signInAndUpClear());
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
@@ -56,6 +57,7 @@ function SignIn() {
         >
           {loading ? "Loading..." : "Sign In"}
         </button>
+        <OAuth/>
       </form>
       <div className="flex gap-2 mt-5">
         <p>Don&apos;t have an account?</p>
