@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getDownloadURL,
@@ -8,8 +8,16 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
-import axios from '../axios.js'
-import { deleteUserFailure, deleteUserStart, deleteUserSuccess, updateUserFailure, updateUserStart, updateUserSuccess } from "../redex/user/userSlice.js";
+import axios from "../axios.js";
+import {
+  deleteUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  updateUserFailure,
+  updateUserStart,
+  updateUserSuccess,
+  signOut,
+} from "../redex/user/userSlice.js";
 import alert from "../sweetAlert.js";
 
 function Profile() {
@@ -19,8 +27,7 @@ function Profile() {
   const [formData, setFormData] = useState({});
   const [imagePercentage, setImagePercentage] = useState(0);
   const dispatch = useDispatch();
-  const { currentUser, loading , error } = useSelector((state) => state.user);
-
+  const { currentUser, loading, error } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (image) {
@@ -60,13 +67,13 @@ function Profile() {
     e.preventDefault();
     try {
       dispatch(updateUserStart());
-      const res = await axios.post(`/user/update/${currentUser._id}`,formData);
+      const res = await axios.post(`/user/update/${currentUser._id}`, formData);
       dispatch(updateUserSuccess(res.data));
-      alert('success','User Updated!');
+      alert("success", "User Updated!");
     } catch (error) {
       dispatch(updateUserFailure(error.response.data));
     }
-  }
+  };
 
   const handleDeleteAccount = async () => {
     try {
@@ -77,10 +84,10 @@ function Profile() {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
-      }).then( async (result) => {
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
         if (result.isConfirmed) {
-          dispatch(deleteUserStart())
+          dispatch(deleteUserStart());
           const res = await axios.delete(`/user/delete/${currentUser._id}`);
           dispatch(deleteUserSuccess());
           Swal.fire({
@@ -89,15 +96,23 @@ function Profile() {
             icon: "success",
             timer: 1500,
             timerProgressBar: true,
-            showConfirmButton: false
+            showConfirmButton: false,
           });
         }
       });
     } catch (error) {
-      dispatch(deleteUserFailure(error.response.data))
+      dispatch(deleteUserFailure(error.response.data));
     }
-  }
+  };
 
+  const handleSignOut = async () => {
+    try {
+      await axios.get("/auth/signout");
+      dispatch(signOut());
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="p-3 max-w-lg mx-auto">
@@ -155,17 +170,15 @@ function Profile() {
           onChange={handleChange}
         />
         <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
-          {loading ? 'Loading...' : 'Update'}
+          {loading ? "Loading..." : "Update"}
         </button>
       </form>
       <div className="flex justify-between mt-5 text-red-700 cursor-pointer">
-        <span onClick={handleDeleteAccount} >Delete Account</span>
-        <span>Sign Out</span>
+        <span onClick={handleDeleteAccount}>Delete Account</span>
+        <span onClick={handleSignOut}>Sign Out</span>
       </div>
       <p className="text-red-700 mt-5">
-        {
-          error ? error.message || 'something went wrong!' : ''
-        }
+        {error ? error.message || "something went wrong!" : ""}
       </p>
     </div>
   );
