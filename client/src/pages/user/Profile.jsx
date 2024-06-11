@@ -7,8 +7,8 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { app } from "../firebase";
-import axios from "../axios.js";
+import { app } from "../../firebase.js";
+import axios from "../../axios.js";
 import {
   deleteUserFailure,
   deleteUserStart,
@@ -17,8 +17,8 @@ import {
   updateUserStart,
   updateUserSuccess,
   signOut,
-} from "../redex/user/userSlice.js";
-import alert from "../sweetAlert.js";
+} from "../../redex/user/userSlice.js";
+import alert from "../../sweetAlert.js";
 
 function Profile() {
   const fileRef = useRef(null);
