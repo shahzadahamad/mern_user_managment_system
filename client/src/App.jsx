@@ -16,7 +16,9 @@ function App() {
     <BrowserRouter>
       {location.pathname.includes("/admin") ? <AdminHeader /> : <Header />}
       <Routes>
+        {/* error route */}
         <Route path="*" element={<Home />} />
+        {/* user routes */}
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route element={<PublicRoute />}>
