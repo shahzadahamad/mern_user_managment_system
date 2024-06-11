@@ -1,5 +1,5 @@
-import User from "../models/user/user.model.js";
-import { errorHandler } from "../utils/error.js";
+import User from "../../models/user/user.model.js";
+import { errorHandler } from "../../utils/error.js";
 import bcryptjs from "bcryptjs";
 
 
