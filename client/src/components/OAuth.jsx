@@ -21,7 +21,6 @@ function OAuth() {
         photo : result.user.photoURL,
       }
       const res = await axios.post('/auth/google',data);
-      console.log(res.data)
       dispatch(signInSuccess(res.data));
       navigate('/')
     } catch (error) {
