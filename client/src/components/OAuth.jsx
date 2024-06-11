@@ -22,7 +22,8 @@ function OAuth() {
         }
       const res = await axios.post('/auth/google',data);
       dispatch(signInSuccess(res.data));
-      navigate('/')
+      navigate('/');
+      console.log('hggghgg');
     } catch (error) {
       console.log(error.response.data);
     }
