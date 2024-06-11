@@ -23,8 +23,7 @@ function SignInAdmin() {
       dispatch(signInStart());
       const res = await axios.post('/auth/admin/signin',fromData);
       dispatch(signInSuccess(res.data));
-      console.log(res.data)
-      navigate('/admin');
+      navigate('/admin/dashboard');
     } catch (error) {
       dispatch(signInFailure(error.response.data));
     }

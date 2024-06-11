@@ -9,6 +9,7 @@ import PrivateRoute from "./components/user/PrivateRoute";
 import PublicRoute from "./components/user/PublicRoute";
 import SignInAdmin from "./pages/admin/SignInAdmin";
 import AdminHeader from "./components/admin/AdminHeader";
+import Dashboard from "./pages/admin/Dashboard";
 
 function App() {
   return (
@@ -25,8 +26,10 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
         </Route>
+        {/* admin routes */}
         <Route path="/admin" element={<SignInAdmin />} />
         <Route path="/admin/sign-in" element={<SignInAdmin />} />
+        <Route path="/admin/dashboard" element={<Dashboard/>} />
       </Routes>
     </BrowserRouter>
   );
