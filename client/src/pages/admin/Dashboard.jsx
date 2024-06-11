@@ -1,6 +1,17 @@
-
+import { useEffect, useState } from "react";
+import axios from "../../axios";
 
 function Dashboard() {
+  const [userData, setUserData] = useState([]);
+  useEffect(() => {
+    const getUserData = async () => {
+      const res = await axios.get("/admin/user-data");
+      setUserData(res.data);
+      console.log(userData);
+    };
+    getUserData();
+  }, []);
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4 text-gray-700">Admin Dashboard</h1>
@@ -33,20 +44,22 @@ function Dashboard() {
             </tr>
           </thead>
           <tbody>
-            <tr className="hover:bg-gray-50">
-              <td className="py-2 px-4 border-b">1</td>
-              <td className="py-2 px-4 border-b">Shahzad</td>
-              <td className="py-2 px-4 border-b">shahzadahamad@gmail.com</td>
-              <td className="py-2 px-4 border-b">24/02/2004</td>
-              <td className="py-2 px-4 border-b">
-                <button className="mr-2 bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">
-                  Edit
-                </button>
-                <button className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600">
-                  Delete
-                </button>
-              </td>
-            </tr>
+            {userData.map((user, index) => (
+              <tr key={index} className="hover:bg-gray-50">
+                <td className="py-2 px-4 border-b">{user._id}</td>
+                <td className="py-2 px-4 border-b">{user.username}</td>
+                <td className="py-2 px-4 border-b">{user.email}</td>
+                <td className="py-2 px-4 border-b">{new Date(user.createdAt).toISOString().split('T')[0]}</td>
+                <td className="py-2 px-4 border-b">
+                  <button className="mr-2 bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">
+                    Edit
+                  </button>
+                  <button className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
           <tfoot className="bg-gray-100">
             <tr>
@@ -54,7 +67,7 @@ function Dashboard() {
                 colSpan="5"
                 className="py-2 px-4 border-b text-start font-bold text-gray-600"
               >
-                Total Users: 10
+                Total Users: {userData.length}
               </td>
             </tr>
           </tfoot>
