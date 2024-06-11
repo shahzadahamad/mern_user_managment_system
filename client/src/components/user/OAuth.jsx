@@ -1,8 +1,8 @@
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth"
-import { app } from "../firebase";
-import axios from "../axios.js";
+import { app } from "../../firebase.js";
+import axios from "../../axios.js";
 import { useDispatch } from "react-redux";
-import { signInSuccess } from "../redex/user/userSlice";
+import { signInSuccess } from "../../redex/user/userSlice";
 import { useNavigate } from "react-router-dom";
 
 

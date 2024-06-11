@@ -8,7 +8,7 @@ import {
   signInSuccess,
   signInAndUpClear,
 } from "../../redex/user/userSlice.js";
-import OAuth from "../../components/OAuth.jsx";
+import OAuth from "../../components/user/OAuth.jsx";
 
 function SignIn() {
   const navigate = useNavigate();
