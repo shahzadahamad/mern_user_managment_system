@@ -13,7 +13,7 @@ import AdminHeader from "./components/admin/AdminHeader";
 function App() {
   return (
     <BrowserRouter>
-      { location.pathname.includes("/admin") ? <AdminHeader /> : <Header />}
+      {location.pathname.includes("/admin") ? <AdminHeader /> : <Header />}
       <Routes>
         <Route path="*" element={<Home />} />
         <Route path="/" element={<Home />} />
@@ -25,7 +25,8 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
         </Route>
-        <Route path='/admin/sign-in' element={<SignInAdmin/>} />
+        <Route path="/admin" element={<SignInAdmin />} />
+        <Route path="/admin/sign-in" element={<SignInAdmin />} />
       </Routes>
     </BrowserRouter>
   );
