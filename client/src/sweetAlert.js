@@ -16,6 +16,6 @@ const alert = (status,message) => {
     icon: status,
     title: message
   });
-}
+};
 
 export default alert;

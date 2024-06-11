@@ -19,12 +19,13 @@ function OAuth() {
         name : result.user.displayName,
         email : result.user.email,
         photo : result.user.photoURL,
-      }
+        }
       const res = await axios.post('/auth/google',data);
+      console.log(res)
       dispatch(signInSuccess(res.data));
       navigate('/')
     } catch (error) {
-      console.log(error.message);
+      console.log(error.response.data);
     }
   };
 

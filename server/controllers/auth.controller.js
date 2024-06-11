@@ -32,7 +32,7 @@ export const signin = async (req,res,next) => {
     if(!validUser) return next(errorHandler(404,'User not found'));
     const valiedPassword = bcryptjs.compareSync(password,validUser.password);
     if(!valiedPassword) return next(errorHandler(401,'Invalied credentials'));
-    const {password:_,...rest} = validUser.toObject()
+    const {password:_,...rest} = validUser.toObject();
     const token = jwt.sign({id:validUser._id},process.env.jwtSecret);
     res.cookie('access_token',token,{httpOnly:true}, new Date(Date.now() + 3600000)).status(200).json(rest);
   }catch(error) {
@@ -43,7 +43,7 @@ export const signin = async (req,res,next) => {
 export const google = async (req,res,next) => {
   try {
     const {email,name,photo} = req.body;
-    const user = await User.findOne({ email : email });
+    const user = await User.findOne({ email });
     const expiryDate = new Date(Date.now() + 3600000);
     if(user) {
       const token = jwt.sign({id: user._id},process.env.jwtSecret);
@@ -61,10 +61,11 @@ export const google = async (req,res,next) => {
       });
       await newUser.save();
       const token = jwt.sign({id: newUser._id},process.env.jwtSecret);
-      const { password, ...rest } = user.toObject();
+      const { password, ...rest } = newUser.toObject();
       res.cookie('access_token',token,{httpOnly:true, expires : expiryDate}).status(200).json(rest);
     }
   } catch (error) {
+    console.log(error.message);
     next(error)
   }
 }

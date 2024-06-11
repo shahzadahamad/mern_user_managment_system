@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from "react-redux";
 import {
   getDownloadURL,
@@ -8,7 +9,7 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 import axios from '../axios.js'
-import { updateUserFailure, updateUserStart, updateUserSuccess } from "../redex/user/userSlice.js";
+import { deleteUserFailure, deleteUserStart, deleteUserSuccess, updateUserFailure, updateUserStart, updateUserSuccess } from "../redex/user/userSlice.js";
 import alert from "../sweetAlert.js";
 
 function Profile() {
@@ -63,7 +64,37 @@ function Profile() {
       dispatch(updateUserSuccess(res.data));
       alert('success','User Updated!');
     } catch (error) {
-      dispatch(updateUserFailure(error));
+      dispatch(updateUserFailure(error.response.data));
+    }
+  }
+
+  const handleDeleteAccount = async () => {
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then( async (result) => {
+        if (result.isConfirmed) {
+          dispatch(deleteUserStart())
+          const res = await axios.delete(`/user/delete/${currentUser._id}`);
+          dispatch(deleteUserSuccess());
+          Swal.fire({
+            title: "Deleted!",
+            text: res.data,
+            icon: "success",
+            timer: 1500,
+            timerProgressBar: true,
+            showConfirmButton: false
+          });
+        }
+      });
+    } catch (error) {
+      dispatch(deleteUserFailure(error.response.data))
     }
   }
 
@@ -128,12 +159,12 @@ function Profile() {
         </button>
       </form>
       <div className="flex justify-between mt-5 text-red-700 cursor-pointer">
-        <span>Delete Account</span>
+        <span onClick={handleDeleteAccount} >Delete Account</span>
         <span>Sign Out</span>
       </div>
       <p className="text-red-700 mt-5">
         {
-          error && 'something went wrong!'
+          error ? error.message || 'something went wrong!' : ''
         }
       </p>
     </div>
