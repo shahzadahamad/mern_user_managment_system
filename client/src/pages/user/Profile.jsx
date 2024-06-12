@@ -107,8 +107,28 @@ function Profile() {
 
   const handleSignOut = async () => {
     try {
-      await axios.get("/auth/signout");
-      dispatch(signOut());
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Sign Out!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await axios.get("/auth/signout");
+          dispatch(signOut());
+          Swal.fire({
+            title: "Sign Out!",
+            text: "Signing Out,,",
+            icon: "success",
+            timer: 1500,
+            timerProgressBar: true,
+            showConfirmButton: false,
+          });
+        }
+      });
     } catch (error) {
       console.log(error);
     }
