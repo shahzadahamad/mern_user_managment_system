@@ -61,6 +61,9 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    verifyUser : (state,aciotn) => {
+      state.currentUser = aciotn.payload;
+    },
     signOut: (state) => {
       state.currentUser = null;
       state.loading = false;
@@ -83,6 +86,7 @@ export const {
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure,
+  verifyUser,
   signOut,
 } = userSlice.actions;
 

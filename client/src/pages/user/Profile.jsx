@@ -121,7 +121,7 @@ function Profile() {
           dispatch(signOut());
           Swal.fire({
             title: "Sign Out!",
-            text: "Signing Out,,",
+            text: "Signing Out",
             icon: "success",
             timer: 1500,
             timerProgressBar: true,

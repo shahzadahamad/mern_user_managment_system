@@ -10,8 +10,24 @@ import PublicRoute from "./components/user/PublicRoute";
 import SignInAdmin from "./pages/admin/SignInAdmin";
 import AdminHeader from "./components/admin/AdminHeader";
 import Dashboard from "./pages/admin/Dashboard";
+import { useEffect } from "react";
+import axios from "./axios";
+import { verifyUser } from "./redex/user/userSlice";
+import { useDispatch } from "react-redux";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    axios
+      .get(`/auth/verifyUser`)
+      .catch((error) => {
+        if (error) {
+          dispatch(verifyUser(null));
+        }
+      });
+  }, []);
+
   return (
     <BrowserRouter>
       {location.pathname.includes("/admin") ? <AdminHeader /> : <Header />}
@@ -31,7 +47,7 @@ function App() {
         {/* admin routes */}
         <Route path="/admin" element={<SignInAdmin />} />
         <Route path="/admin/sign-in" element={<SignInAdmin />} />
-        <Route path="/admin/dashboard" element={<Dashboard/>} />
+        <Route path="/admin/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );

@@ -67,13 +67,16 @@ function Dashboard() {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4 text-gray-700">Admin Dashboard</h1>
-      <div className="mb-4">
+      <div className="mb-4 flex items-center">
         <input
           type="text"
           placeholder="Search users..."
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-300"
+          className="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-300"
           onChange={handleSearch}
         />
+        <button className="ml-4 bg-slate-500 text-white py-2 px-3 rounded-md hover:bg-slate-600">
+          Create
+        </button>
       </div>
       <div className="overflow-x-auto">
         {filteredUserData.length > 0 ? (
