@@ -1,11 +1,13 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../../axios.js";
 import Swal from "sweetalert2";
+import { signOut } from "../../redex/admin/adminSlice.js";
 
 function AdminHeader() {
   const navigate = useNavigate();
   const { currentAdmin } = useSelector((state) => state.admin);
+  const dispatch = useDispatch();
 
   const handleSignOut = async () => {
     try {
@@ -20,6 +22,7 @@ function AdminHeader() {
       }).then(async (result) => {
         if (result.isConfirmed) {
           await axios.get("auth/admin/signout");
+          dispatch(signOut());
           Swal.fire({
             title: "Sign Out!",
             text: "Signing Out..",
@@ -28,7 +31,7 @@ function AdminHeader() {
             timerProgressBar: true,
             showConfirmButton: false,
           });
-          navigate('/admin/sign-in')
+          navigate("/admin/sign-in");
         }
       });
     } catch (error) {
