@@ -3,7 +3,7 @@ import { errorHandler } from '../../utils/error.js';
 
 export const userData = async (req,res,next) => {
   try{
-    const userData = await User.find({},{password:0,profilePicture:0});
+    const userData = await User.find({},{password:0});
     res.status(200).json(userData);
   }catch(error) {
     next(error);

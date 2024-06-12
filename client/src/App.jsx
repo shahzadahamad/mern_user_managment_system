@@ -1,4 +1,8 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+} from "react-router-dom";
 import Home from "./pages/user/Home";
 import About from "./pages/user/About";
 import SignIn from "./pages/user/SignIn";
@@ -15,17 +19,16 @@ import axios from "./axios";
 import { verifyUser } from "./redex/user/userSlice";
 import { useDispatch } from "react-redux";
 
+
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios
-      .get(`/auth/verifyUser`)
-      .catch((error) => {
-        if (error) {
-          dispatch(verifyUser(null));
-        }
-      });
+    axios.get(`/auth/verifyUser`).catch((error) => {
+      if (error) {
+        dispatch(verifyUser(null));
+      }
+    });
   }, []);
 
   return (

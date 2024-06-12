@@ -87,6 +87,9 @@ function Dashboard() {
                   ID
                 </th>
                 <th className="py-2 px-4 border-b text-start text-gray-600">
+                  Image
+                </th>
+                <th className="py-2 px-4 border-b text-start text-gray-600">
                   Name
                 </th>
                 <th className="py-2 px-4 border-b text-start text-gray-600">
@@ -104,6 +107,9 @@ function Dashboard() {
               {filteredUserData.map((user, index) => (
                 <tr key={index} className="hover:bg-gray-50">
                   <td className="py-2 px-4 border-b">{user._id}</td>
+                  <td className="py-2 px-4 border-b">
+                    <img className="h-7 w-7 rounded-full object-cover" src={user.profilePicture} alt="profile" />
+                  </td>
                   <td className="py-2 px-4 border-b">{user.username}</td>
                   <td className="py-2 px-4 border-b">{user.email}</td>
                   <td className="py-2 px-4 border-b">
@@ -126,7 +132,7 @@ function Dashboard() {
             <tfoot className="bg-gray-100">
               <tr>
                 <td
-                  colSpan="5"
+                  colSpan="6"
                   className="py-2 px-4 border-b text-start font-bold text-gray-600"
                 >
                   Total Users: {userData.length}
