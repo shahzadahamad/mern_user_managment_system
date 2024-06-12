@@ -3,14 +3,26 @@ import axios from "../../axios";
 
 function Dashboard() {
   const [userData, setUserData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   useEffect(() => {
     const getUserData = async () => {
       const res = await axios.get("/admin/user-data");
       setUserData(res.data);
-      console.log(userData);
     };
     getUserData();
   }, []);
+
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredUserData = userData.filter(
+    (user) =>
+      user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user._id.includes(searchQuery) ||
+      user.createdAt.includes(searchQuery)
+  );
 
   return (
     <div className="container mx-auto p-4">
@@ -20,6 +32,7 @@ function Dashboard() {
           type="text"
           placeholder="Search users..."
           className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-300"
+          onChange={handleSearch}
         />
       </div>
       <div className="overflow-x-auto">
@@ -44,12 +57,14 @@ function Dashboard() {
             </tr>
           </thead>
           <tbody>
-            {userData.map((user, index) => (
+            {filteredUserData.map((user, index) => (
               <tr key={index} className="hover:bg-gray-50">
                 <td className="py-2 px-4 border-b">{user._id}</td>
                 <td className="py-2 px-4 border-b">{user.username}</td>
                 <td className="py-2 px-4 border-b">{user.email}</td>
-                <td className="py-2 px-4 border-b">{new Date(user.createdAt).toISOString().split('T')[0]}</td>
+                <td className="py-2 px-4 border-b">
+                  {new Date(user.createdAt).toISOString().split("T")[0]}
+                </td>
                 <td className="py-2 px-4 border-b">
                   <button className="mr-2 bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">
                     Edit
