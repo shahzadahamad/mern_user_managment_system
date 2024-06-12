@@ -15,7 +15,10 @@ export const signin = async (req, res, next) => {
     const token = jwt.sign({id:validAdmin._id},process.env.jwtSecret);
     res.cookie('admin_access_token',token,{httpOnly:true},new Date(Date.now() + 3600000)).status(200).json(rest);
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
+
+export const signout = (req,res) => {
+  res.clearCookie('admin_access_token').status(200).json('Signout Successfully!');
+}
