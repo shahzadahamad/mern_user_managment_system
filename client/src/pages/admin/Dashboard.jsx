@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "../../axios";
 import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { selectUserStart } from "../../redex/admin/adminSlice";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -64,6 +70,11 @@ function Dashboard() {
     });
   };
 
+  const handleSelectUser = (id) => {
+    dispatch(selectUserStart(id));
+    navigate('/admin/edit-user');
+  };
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4 text-gray-700">Admin Dashboard</h1>
@@ -108,7 +119,11 @@ function Dashboard() {
                 <tr key={index} className="hover:bg-gray-50">
                   <td className="py-2 px-4 border-b">{user._id}</td>
                   <td className="py-2 px-4 border-b">
-                    <img className="h-7 w-7 rounded-full object-cover" src={user.profilePicture} alt="profile" />
+                    <img
+                      className="h-7 w-7 rounded-full object-cover"
+                      src={user.profilePicture}
+                      alt="profile"
+                    />
                   </td>
                   <td className="py-2 px-4 border-b">{user.username}</td>
                   <td className="py-2 px-4 border-b">{user.email}</td>
@@ -116,9 +131,9 @@ function Dashboard() {
                     {new Date(user.createdAt).toISOString().split("T")[0]}
                   </td>
                   <td className="py-2 px-4 border-b">
-                    <button className="mr-2 bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">
-                      Edit
-                    </button>
+                      <button onClick={() => handleSelectUser(user)} className="mr-2 bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">
+                        Edit
+                      </button>
                     <button
                       className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600"
                       onClick={() => handleDelete(user._id)}

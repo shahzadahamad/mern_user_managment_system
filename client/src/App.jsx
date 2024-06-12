@@ -18,6 +18,7 @@ import { useEffect } from "react";
 import axios from "./axios";
 import { verifyUser } from "./redex/user/userSlice";
 import { useDispatch } from "react-redux";
+import EditUser from "./pages/admin/EditUser";
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
         <Route path="/admin" element={<SignInAdmin />} />
         <Route path="/admin/sign-in" element={<SignInAdmin />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
+        <Route path="/admin/edit-user" element={<EditUser/>} />
       </Routes>
     </BrowserRouter>
   );

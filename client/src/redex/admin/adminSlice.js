@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   currentAdmin: null,
+  selectedUser: null,
   loading: false,
   error: false,
 };
@@ -26,6 +27,9 @@ const adminSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    selectUserStart: (state,action) => {
+      state.selectedUser = action.payload;
+    },
     signOut: (state) => {
       state.currentAdmin = null;
       state.loading = false;
@@ -39,6 +43,7 @@ export const {
   signInStart,
   signInSuccess,
   signInAndUpClear,
+  selectUserStart,
   signOut,
 } = adminSlice.actions;
 
