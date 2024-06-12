@@ -15,6 +15,7 @@ import SignInAdmin from "./pages/admin/SignInAdmin";
 import AdminHeader from "./components/admin/AdminHeader";
 import Dashboard from "./pages/admin/Dashboard";
 import EditUser from "./pages/admin/EditUser";
+import CreateUser from "./pages/admin/CreateUser";
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
         <Route path="/admin/sign-in" element={<SignInAdmin />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/edit-user" element={<EditUser/>} />
+        <Route path="/admin/create-user" element={<CreateUser/>} />
       </Routes>
     </BrowserRouter>
   );

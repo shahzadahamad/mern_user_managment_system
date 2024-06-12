@@ -85,7 +85,7 @@ function Dashboard() {
           className="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-300"
           onChange={handleSearch}
         />
-        <button className="ml-4 bg-slate-500 text-white py-2 px-3 rounded-md hover:bg-slate-600">
+        <button onClick={() => navigate("/admin/create-user")} className="ml-4 bg-slate-500 text-white py-2 px-3 rounded-md hover:bg-slate-600">
           Create
         </button>
       </div>
