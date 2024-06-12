@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 function AdminHeader() {
   const navigate = useNavigate();
   const { currentAdmin } = useSelector((state) => state.admin);
-  console.log(currentAdmin)
 
   return (
     <div className="bg-slate-200">

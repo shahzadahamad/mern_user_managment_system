@@ -37,18 +37,29 @@ function Dashboard() {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const res = await axios.delete(`/admin/delete-user/${id}`);
-        setUserData((prevUserData) =>
-          prevUserData.filter((user) => user._id !== id)
-        );
-        Swal.fire({
-          title: "Deleted!",
-          text: res.data,
-          icon: "success",
-          timer: 1500,
-          timerProgressBar: true,
-          showConfirmButton: false,
-        });
+        try {
+          const res = await axios.delete(`/admin/delete-user/${id}`);
+          setUserData((prevUserData) =>
+            prevUserData.filter((user) => user._id !== id)
+          );
+          Swal.fire({
+            title: "Deleted!",
+            text: res.data,
+            icon: "success",
+            timer: 1500,
+            timerProgressBar: true,
+            showConfirmButton: false,
+          });
+        } catch (error) {
+          Swal.fire({
+            title: "Error!",
+            text: error.response.data.message,
+            icon: "error",
+            timer: 1500,
+            timerProgressBar: true,
+            showConfirmButton: false,
+          });
+        }
       }
     });
   };
