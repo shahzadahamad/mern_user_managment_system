@@ -30,6 +30,17 @@ const adminSlice = createSlice({
     selectUserStart: (state,action) => {
       state.selectedUser = action.payload;
     },
+    updateUserStart: (state) => {
+      state.loading = true;
+    },
+    updateUserSuccess : (state) => {
+      state.error = false;
+      state.loading = false;
+    },
+    updateUserFailure : (state,action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
     signOut: (state) => {
       state.currentAdmin = null;
       state.loading = false;
@@ -44,6 +55,9 @@ export const {
   signInSuccess,
   signInAndUpClear,
   selectUserStart,
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure,
   signOut,
 } = adminSlice.actions;
 

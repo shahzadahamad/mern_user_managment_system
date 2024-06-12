@@ -89,21 +89,6 @@ export const google = async (req, res, next) => {
   }
 };
 
-export const verifyUser = async (req, res, next) => {
-  try {
-    const token = req.cookies.access_token;
-    if(!token) {
-      return next(errorHandler(401, "You are not authenticated!"));
-    }
-    const decoded = jwt.verify(token, process.env.jwtSecret);
-    const user = await User.findById(decoded.id)
-    if (!user) return next(errorHandler(404, "User not found"));
-    res.status(200).json({ status: true });
-  } catch (error) {
-    next(error);
-  }
-}; 
-
 export const signout = (req, res) => {
   res.clearCookie("access_token").status(200).json("Signout Successfully!");
 };

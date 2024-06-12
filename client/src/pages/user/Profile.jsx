@@ -21,13 +21,14 @@ import {
 import alert from "../../sweetAlert.js";
 
 function Profile() {
+  const { currentUser, loading, error } = useSelector((state) => state.user);
+  const {username,email} = currentUser;
   const fileRef = useRef(null);
   const [image, setImage] = useState(undefined);
   const [error1, setError1] = useState(false);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({username,email});
   const [imagePercentage, setImagePercentage] = useState(0);
   const dispatch = useDispatch();
-  const { currentUser, loading, error } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (image) {
