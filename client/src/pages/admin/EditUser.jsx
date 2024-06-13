@@ -14,6 +14,7 @@ import {
   updateUserFailure,
   updateUserStart,
   updateUserSuccess,
+  selectUserEnd,
 } from "../../redex/admin/adminSlice.js";
 
 function EditUser() {
@@ -66,6 +67,7 @@ function EditUser() {
         formData
       );
       navigate("/admin/dashboard");
+      dispatch(selectUserEnd(null));
       dispatch(updateUserSuccess());
       alert("success", "User Updated!");
     } catch (error) {

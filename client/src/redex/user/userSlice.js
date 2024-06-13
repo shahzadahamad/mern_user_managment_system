@@ -61,11 +61,6 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    verifyUser : (state,aciotn) => {
-      state.currentUser = aciotn.payload;
-      state.loading = false;
-      state.error = false;
-    },
     signOut: (state) => {
       state.currentUser = null;
       state.loading = false;

@@ -4,6 +4,7 @@ import axios from "../../axios.js";
 import Swal from "sweetalert2";
 import { signOut } from "../../redex/admin/adminSlice.js";
 
+
 function AdminHeader() {
   const navigate = useNavigate();
   const { currentAdmin } = useSelector((state) => state.admin);
@@ -31,7 +32,6 @@ function AdminHeader() {
             timerProgressBar: true,
             showConfirmButton: false,
           });
-          navigate("/admin/sign-in");
         }
       });
     } catch (error) {

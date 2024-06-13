@@ -16,10 +16,10 @@ import {
   updateUserFailure,
   updateUserStart,
   updateUserSuccess,
-  verifyUser,
   signOut,
 } from "../../redex/user/userSlice.js";
 import alert from "../../sweetAlert.js";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -30,6 +30,7 @@ function Profile() {
   const [formData, setFormData] = useState({ username, email });
   const [imagePercentage, setImagePercentage] = useState(0);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (image) {
@@ -70,12 +71,18 @@ function Profile() {
     try {
       dispatch(updateUserStart());
       const res = await axios.post(`/user/update/${currentUser._id}`, formData);
+      console.log(res);
+      if (res.data.status === 404) {
+        dispatch(signOut());
+        alert("error", "unauthorized");
+        return;
+      }
       dispatch(updateUserSuccess(res.data));
       alert("success", "User Updated!");
     } catch (error) {
-      if (error.response.data.message === "User not found") {
-        dispatch(verifyUser(null));
-        alert("error", "User not found");
+      if (error.response.status) {
+        dispatch(signOut());
+        alert("error", "unauthorized");
         return;
       }
       dispatch(updateUserFailure(error.response.data));
@@ -92,27 +99,30 @@ function Profile() {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!",
-      }).then(async (result) => {
+      }).then((result) => {
         if (result.isConfirmed) {
           dispatch(deleteUserStart());
-          const res = await axios
+          axios
             .delete(`/user/delete/${currentUser._id}`)
+            .then((res) => {
+              dispatch(deleteUserSuccess());
+              Swal.fire({
+                title: "Deleted!",
+                text: res.data,
+                icon: "success",
+                timer: 1500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+              });
+            })
             .catch((error) => {
-              if (error.response.data.message === "User not found") {
-                dispatch(verifyUser(null));
-                alert("error", "User not found");
+              console.log(error.response.status);
+              if (error.response.status === 404) {
+                dispatch(signOut());
+                alert("error", "unauthorized");
                 return;
               }
             });
-          dispatch(deleteUserSuccess());
-          Swal.fire({
-            title: "Deleted!",
-            text: res.data,
-            icon: "success",
-            timer: 1500,
-            timerProgressBar: true,
-            showConfirmButton: false,
-          });
         }
       });
     } catch (error) {
@@ -128,24 +138,19 @@ function Profile() {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Sign Out!",
+      confirmButtonText: "Sign Out!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.get("/auth/signout").catch((error) => {
-          if (error.response.data.message === "User not found") {
-            dispatch(verifyUser(null));
-            alert("error", "User not found");
-            return;
-          }
-        });
-        dispatch(signOut());
-        Swal.fire({
-          title: "Sign Out!",
-          text: "Signing Out",
-          icon: "success",
-          timer: 1500,
-          timerProgressBar: true,
-          showConfirmButton: false,
+        axios.get("/auth/signout").then((res) => {
+          dispatch(signOut());
+          Swal.fire({
+            title: "Sign Out!",
+            text: res.data,
+            icon: "success",
+            timer: 1500,
+            timerProgressBar: true,
+            showConfirmButton: false,
+          });
         });
       }
     });

@@ -8,7 +8,7 @@ export const verifyToken = async (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.jwtSecret);
     const user = await User.findById(decoded.id)
-    if (!user) return next(errorHandler(404, "User not found"));
+    if (!user) return res.clearCookie('access_token').status(404).json('User not found!..');
 
   jwt.verify(token, process.env.jwtSecret, (err, user) => {
     if (err) return next(errorHandler(403, "Token is Invalid!"));
