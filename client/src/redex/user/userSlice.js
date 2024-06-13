@@ -63,6 +63,8 @@ const userSlice = createSlice({
     },
     verifyUser : (state,aciotn) => {
       state.currentUser = aciotn.payload;
+      state.loading = false;
+      state.error = false;
     },
     signOut: (state) => {
       state.currentUser = null;
