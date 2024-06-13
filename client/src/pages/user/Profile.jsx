@@ -19,7 +19,6 @@ import {
   signOut,
 } from "../../redex/user/userSlice.js";
 import alert from "../../sweetAlert.js";
-import { useNavigate } from "react-router-dom";
 
 function Profile() {
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -30,7 +29,6 @@ function Profile() {
   const [formData, setFormData] = useState({ username, email });
   const [imagePercentage, setImagePercentage] = useState(0);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (image) {
