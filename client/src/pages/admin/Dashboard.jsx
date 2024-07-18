@@ -15,7 +15,7 @@ function Dashboard() {
   useEffect(() => {
     const getUserData = async () => {
       const res = await axios.get("/admin/user-data");
-      setUserData(res.data);
+      setUserData([...res.data]);
     };
     getUserData();
   }, []);
